@@ -4,9 +4,9 @@
 
 ## Synopsis
 * This is a Gradle multiproject composed by 2 projects. 
-* The one is AppinstallerDrivers; a war exposing a Javawebstart (jnlp) depending on a series of jars and embedded native libraries.
+* The one is **AppinstallerDrivers**; a war exposing a Javawebstart (jnlp) depending on a series of jars and embedded native libraries.
 	* A gradle task imports an Ant build.xml to build the war.
-* The other is DriversNativoC, the same project as [installerdriverscgradle](https://bitbucket.org/elbillyto/installerdriverscgradle), which adopts a gradle Layout
+* The other is **DriversNativoC**, the same project as [installerdriverscgradle](https://bitbucket.org/elbillyto/installerdriverscgradle), which adopts a gradle Layout
 
 ## DLL API Reference (DriversNativoC)
 ```c
