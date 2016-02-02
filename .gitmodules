@@ -1,0 +1,6 @@
+[submodule "Appinstallerdriversgradle"]
+    path = AppinstallerDrivers
+    url = https://bitbucket.org/elbillyto/installerdriversgradle.git
+[submodule "DriversNativoC"]
+    path = DriversNativoC
+    url = https://bitbucket.org/elbillyto/installerdriverscgradle.git    
