@@ -1,0 +1,54 @@
+// build.gradle
+defaultTasks 'construyeWar'
+
+allprojects {
+    task NombreProyecto << { 
+    	task -> println "I'm in project ${task.project.name}" 
+	}	
+}
+project(':AppinstallerDrivers').NombreProyecto << {
+    	println 'destino --> '+getProject().getName()+'/src/lib'
+}
+def rutaDir_DLL_NativeC =''
+project(':DriversNativoC').NombreProyecto << {
+    //println getProject().getBuildDir()
+    def bilddir= getProject().getBuildDir()
+    def rutaDir_DLL_NativeCb= "${bilddir}/libs/${project.name}/shared/release"
+	rutaDir_DLL_NativeC= rutaDir_DLL_NativeCb.replaceAll(/\\+/, '/')
+
+    def ruta_DLL_NativeCb= "${bilddir}/libs/${project.name}/shared/release/${project.name}.dll"
+	def ruta_DLL_NativeC= ruta_DLL_NativeCb.replaceAll(/\\+/, '/')
+	println 'origen-> '+ruta_DLL_NativeC
+}
+
+task copiar<<{	
+	description 'Copies the DLL from source directory to the target directory.'
+	copy{
+	    from ('DriversNativoC/build/libs/DriversNativoC/shared/release')
+	    into 'AppinstallerDrivers/src/lib'
+    }
+}
+
+project(':AppinstallerDrivers'){
+    ant.importBuild 'build.xml'
+    
+    task construyeWar(dependsOn:[':DriversNativoC:build',copiar,main] ) {
+    	description 'Builds a war including jnlps and dependent jars /dlls.'
+
+        
+    }
+   	construyeWar.doFirst {
+        println 'se copia la Dll construida a la carpeta adecuada'
+    }
+    construyeWar.doLast {
+        println 'AppinstallerDrivers.war construido'
+    }
+    construyeWar.mustRunAfter task(':DriversNativoC:build')
+
+
+}
+
+task(':AppinstallerDrivers:construyeWar').shouldRunAfter copiar
+
+//println getProject().getTasks().getByPath(':DriversNativoC:build').name
+copiar.mustRunAfter getProject().getTasks().getByPath(':DriversNativoC:build')
